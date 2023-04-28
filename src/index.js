@@ -31,8 +31,7 @@ function observeObj(entries) {
       observer.unobserve(entry.target);
       apiPhotoService.page += 1;
       if (entry.intersectionRatio === 1 && apiPhotoService.page === totalPage) {
-        Notiflix.Notify.failure(
-          "We're sorry, but you've reached the end of search results."
+        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results."
         );
       }
       apiPhotoService.fetchPhoto().then(data => {
@@ -77,7 +76,7 @@ function onSubmitSearchForm(evt) {
     const { hits, totalHits } = data;
     if (hits.length === 0) {
       clearAll();
-      Notify.failure(
+      Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
       return;
@@ -91,15 +90,14 @@ function onSubmitSearchForm(evt) {
 function renderMarkupPhotos(data) {
   let markup = '';
   markup = data.hits
-    .map(
-      ({
-        webformatURL, //webformatURL
-        largeImageURL, //посилання на велике зображення.
-        tags, //рядок з описом зображення. Підійде для атрибуту alt.
-        likes, //кількість лайків.
-        views, //кількість переглядів.
-        comments, //кількість коментарів.
-        downloads, //кількість завантажень.
+    .map(({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
       }) => `<a class="photo-link" href=${largeImageURL}>
         <div class="photo-card"><img class="gallery-image" src="${webformatURL}" alt="${tags}" loading="lazy" width = '300px'/></div>
         <div class="info">
@@ -108,9 +106,11 @@ function renderMarkupPhotos(data) {
           <p class="info-item"><b>Comments</b>${comments}</p>
           <p class="info-item"><b>Downloads</b>${downloads}</p>
           </div></a>`
-    ).join('');
+    )
+    .join('');
   linkElemById.galleryAll.insertAdjacentHTML('beforeend', markup);
-  lightbox.refresh(); //після додавання нової групи карток зображень.
+  //після додавання нової групи карток зображень.
+  lightbox.refresh(); 
 }
 
 function clearAll() {

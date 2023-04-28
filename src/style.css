@@ -3,7 +3,6 @@
    --all: transition-duration: 0.2s; transition-timing-function: ease-in-out; transition-delay: 0s; transition-property: all;
 }
 
-
 * {
   box-sizing: border-box;
 }
@@ -64,15 +63,16 @@ button, input, optgroup, select, textarea {
     /* font-size: .875rem; */
     font-weight: 600;
     transition: all .2s ease-in-out;
-    box-shadow: inset 5px 5px px #babecc, inset -3px -3px 7px #fff;}
-    
+    box-shadow: inset 5px 5px px #babecc, inset -3px -3px 7px #fff;
+  }
+
 .search-form input:focus {box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;}
 .search-form input:hover {box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;}
  
 .search-form button {
     max-width: 9.375rem;
-    height: 2.75rem;
-    width: 20rem;
+    height: 2.5rem;
+    /* width: 20rem; */
     cursor: pointer;
     color: #0d37a9;
     text-shadow: 1px 1px 1px #fff;
@@ -87,10 +87,8 @@ button, input, optgroup, select, textarea {
     transition: all .2s ease-in-out;
     display: flex;
     box-shadow: inset -5px -5px 20px #fff, inset 5px 5px 20px #babecc;
-   
-  /* border-radius: 0px 2px 2px 0px;
-  cursor: pointer; */
-  /* background-color: rgb(239, 239, 239); / */
+    justify-content: space-between
+
 }
 .search-form button:before {
   content: '';
@@ -101,6 +99,10 @@ button, input, optgroup, select, textarea {
   box-shadow: inset -2px -2px 5px 0px #fff, inset 2px 2px 5px #babecc;
 }
 
+.icon-arrow{
+  fill:#0d37a9;
+  margin-right: 10px;
+  }
 .gallery {
   display: flex;
   flex-wrap: wrap;
