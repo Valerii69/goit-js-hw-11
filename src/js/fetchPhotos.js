@@ -27,7 +27,7 @@ export default class ApiPhotoService {
       if (response.status !== 200) {
         throw new Error(response.status);
       }
-      this.PAGE += 1;
+    //   this.PAGE += 1;
       return response.data;
     } 
     catch (error) {

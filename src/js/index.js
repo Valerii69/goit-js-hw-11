@@ -39,7 +39,7 @@ function observeObj(entries) {
       apiPhotoService.fetchPhoto().then(data => {
         renderMarkupPhotos(data);
         const hasPhoto =
-          apiPhotoService.page < totalPage && data.totalHits === 500;
+          apiPhotoService.page < totalPage || data.totalHits === 500;
         if (hasPhoto) {
           if (data.totalHits < 500) {
             return;
@@ -67,8 +67,8 @@ function onSubmitSearchForm(evt) {
     clearAll();
     Notiflix.Notify.info('Enter data to search!');
     return;
-
   }
+  
   apiPhotoService.resetPage();
   apiPhotoService.fetchPhoto().then(data => {
     // console.log(data);
@@ -78,6 +78,7 @@ function onSubmitSearchForm(evt) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       return;
     }
+
     renderMarkupPhotos(data);
     observer.observe(linkElemById.guard);
     Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`); //повідомлення, в якому написано, скільки всього знайшли зображень (властивість totalHits)
