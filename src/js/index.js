@@ -1,4 +1,4 @@
-import { lightScroll } from './js/lightScroll';
+import { lightScroll } from './lightScroll';
 import Notiflix from 'notiflix';
 import ApiPhotoService from './fetchPhotos.js';
 // Описаний в документації
@@ -7,10 +7,11 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const apiPhotoService = new ApiPhotoService();
-const lightbox = new SimpleLightbox('.photo-link', { captionsDelay: 1000 });
+const lightbox = new SimpleLightbox('.photo-link', { captionsDelay: 250 });
+
 const params = {
   root: null,
-  rootMargin: '200px',
+  rootMargin: '100px',
   threshold: 1,
 };
 
@@ -21,7 +22,8 @@ const linkElemById = {
   guard: document.querySelector('.guard'),
 };
 
-let totalPage = '15';
+let totalPage = ' ';
+
 
 function observeObj(entries) {
   //   console.log(entries);
@@ -30,7 +32,7 @@ function observeObj(entries) {
     if (entry.isIntersecting) {
       observer.unobserve(entry.target);
       apiPhotoService.page += 1;
-      if (entry.intersectionRatio === 1 && apiPhotoService.page === totalPage) {
+    if (entry.intersectionRatio === 1 && apiPhotoService.page === totalPage) {
         Notiflix.Notify.failure("We're sorry, but you've reached the end of search results."
         );
       }
@@ -52,23 +54,20 @@ function observeObj(entries) {
 const observer = new IntersectionObserver(observeObj, params);
 
 linkElemById.searchForm.addEventListener('submit', onSubmitSearchForm);
-linkElemById.galleryAll.addEventListener('click', selectGalleryElem);
+// linkElemById.galleryAll.addEventListener('click', selectGalleryElem);
 document.addEventListener('scroll', lightScroll);
 
-function selectGalleryElem(evt) {
-  evt.preventDefault();
-}
-
+// форма поиска
 function onSubmitSearchForm(evt) {
   evt.preventDefault();
   apiPhotoService.query = evt.currentTarget.elements.searchQuery.value;
+
   clearAll();
   if (apiPhotoService.query === '') {
     clearAll();
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
+    Notiflix.Notify.info('Enter data to search!');
     return;
+
   }
   apiPhotoService.resetPage();
   apiPhotoService.fetchPhoto().then(data => {
@@ -76,9 +75,7 @@ function onSubmitSearchForm(evt) {
     const { hits, totalHits } = data;
     if (hits.length === 0) {
       clearAll();
-      Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
+      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       return;
     }
     renderMarkupPhotos(data);
@@ -98,7 +95,7 @@ function renderMarkupPhotos(data) {
         views,
         comments,
         downloads,
-      }) => `<a class="photo-link" href=${largeImageURL}>
+      }) => {return `<a class="photo-link" href=${largeImageURL}>
         <div class="photo-card"><img class="gallery-image" src="${webformatURL}" alt="${tags}" loading="lazy" width = '300px'/></div>
         <div class="info">
           <p class="info-item"><b>Likes</b>${likes}</p>
@@ -106,11 +103,10 @@ function renderMarkupPhotos(data) {
           <p class="info-item"><b>Comments</b>${comments}</p>
           <p class="info-item"><b>Downloads</b>${downloads}</p>
           </div></a>`
-    )
-    .join('');
+}).join('');
   linkElemById.galleryAll.insertAdjacentHTML('beforeend', markup);
   //після додавання нової групи карток зображень.
-  lightbox.refresh(); 
+  lightbox.refresh();
 }
 
 function clearAll() {
