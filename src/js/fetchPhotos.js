@@ -11,6 +11,11 @@ export default class ApiPhotoService {
   }
   //публічний API сервісу Pixabay синтаксис async
   async fetchPhoto() {
+  //   const trimEdQuery = this.searchQuery.trim(); // удаление пробелов с обеих сторон строки
+  // if (!trimEdQuery) {
+
+  //   return; // если строка пустая, то ничего не делать
+  // }
     const searchParams = new URLSearchParams({
       key: this.KEY,
       q: this.searchQuery,

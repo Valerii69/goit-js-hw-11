@@ -63,7 +63,7 @@ function onSubmitSearchForm(evt) {
   apiPhotoService.query = evt.currentTarget.elements.searchQuery.value;
 
   clearAll();
-  if (apiPhotoService.query === '') {
+  if (apiPhotoService.query.trim() === '') {
     clearAll();
     Notiflix.Notify.info('Enter data to search!');
     return;
